@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources>
+	<defprop>dev</defprop>
+	<datasource>
+		<propname>dev</propname>
+		<ip>10.16.54.23</ip>
+		<username>qinghai_iuap_191106</username>
+		<psw>1</psw>
+		<dbname>ora19c</dbname>
+		<dbtype>ORACLE</dbtype>
+		<port>1521</port>
+	</datasource>
+	<datasource>
+		<propname>upgrade</propname>
+		<ip>10.16.54.23</ip>
+		<username>qinghai_iuap_191220</username>
+		<psw>1</psw>
+		<dbtype>ORACLE</dbtype>
+		<dbname>ora19c</dbname>
+		<port>1521</port>
+	</datasource>
+</datasources>

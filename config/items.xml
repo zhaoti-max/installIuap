@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items docType="SDP_SCRIPT_ITEM">
+	<item>
+		<itemTable>ref_refinfo</itemTable>
+		<fixedWhere> 1 = 1</fixedWhere>
+	</item>
+	<item>
+		<itemTable>mspub_paramset</itemTable>
+		<fixedWhere> issys='Y'</fixedWhere>
+	</item>
+	<item>
+		<itemTable>prp_pricorg</itemTable>
+		<fixedWhere> code ='001'</fixedWhere>
+	</item>
+	<item>
+		<itemTable>prp_paramset</itemTable>
+		<fixedWhere> pricorg_id='6dda134c476d446784132d44850500a0'  and issys='Y'</fixedWhere>
+	</item>
+	<item>
+		<itemTable>prp_priceset</itemTable>
+		<fixedWhere>  code in('001','002','003','004','005','006','007','008') and dr=0 </fixedWhere>
+	</item>
+	<item>
+		<itemTable>prp_priceset_b</itemTable>
+		<fixedWhere>  priceset_id in(select id from prp_priceset where code in('001','002','003','004','005','006','007','008') and dr=0) </fixedWhere>
+	</item>
+</items>
