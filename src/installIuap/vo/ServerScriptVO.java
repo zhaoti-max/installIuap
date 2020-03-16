@@ -9,6 +9,11 @@ import installIuap.vo.bean.WbAreas;
 import installIuap.vo.bean.WbLabelRelation;
 import installIuap.vo.bean.WbMenuCollection;
 import installIuap.vo.bean.WbMenuGroup;
+import installIuap.vo.bean.uapmdm.BizObject;
+import installIuap.vo.bean.uapmdm.BizObjectField;
+import installIuap.vo.bean.uapmdm.PapBcrElem;
+import installIuap.vo.bean.uapmdm.PapBcrRulebase;
+import installIuap.vo.bean.uapmdm.PapBcrSn;
 
 import java.util.List;
 
@@ -31,6 +36,16 @@ public class ServerScriptVO {
 	
 	private List<WbMenuCollection> wbMenuCollectionlist;
 
+	private List<PapBcrRulebase> papBcrRulebaselist;
+
+	private List<PapBcrElem> papBcrElemlist;
+
+	private List<PapBcrSn> papBcrSnlist;
+
+	private List<BizObject> bizObjectlist;
+
+	private List<BizObjectField> bizObjectFieldlist;
+	
 	public WbAreas getWbAreas() {
 		return wbAreas;
 	}
@@ -101,6 +116,46 @@ public class ServerScriptVO {
 
 	public void setWbMenuCollectionlist(List<WbMenuCollection> wbMenuCollectionlist) {
 		this.wbMenuCollectionlist = wbMenuCollectionlist;
+	}
+
+	public List<PapBcrRulebase> getPapBcrRulebaselist() {
+		return papBcrRulebaselist;
+	}
+
+	public void setPapBcrRulebaselist(List<PapBcrRulebase> papBcrRulebaselist) {
+		this.papBcrRulebaselist = papBcrRulebaselist;
+	}
+
+	public List<PapBcrElem> getPapBcrElemlist() {
+		return papBcrElemlist;
+	}
+
+	public void setPapBcrElemlist(List<PapBcrElem> papBcrElemlist) {
+		this.papBcrElemlist = papBcrElemlist;
+	}
+
+	public List<PapBcrSn> getPapBcrSnlist() {
+		return papBcrSnlist;
+	}
+
+	public void setPapBcrSnlist(List<PapBcrSn> papBcrSnlist) {
+		this.papBcrSnlist = papBcrSnlist;
+	}
+
+	public List<BizObject> getBizObjectlist() {
+		return bizObjectlist;
+	}
+
+	public void setBizObjectlist(List<BizObject> bizObjectlist) {
+		this.bizObjectlist = bizObjectlist;
+	}
+
+	public List<BizObjectField> getBizObjectFieldlist() {
+		return bizObjectFieldlist;
+	}
+
+	public void setBizObjectFieldlist(List<BizObjectField> bizObjectFieldlist) {
+		this.bizObjectFieldlist = bizObjectFieldlist;
 	}
 	
 }

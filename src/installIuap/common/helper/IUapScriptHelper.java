@@ -152,7 +152,8 @@ public class IUapScriptHelper {
 		StringBuffer virtualmenuInitsqls = new StringBuffer();
 		virtualmenuInitsqls.append(dataTitle(3)).append("\n");
 		// virtualmenuInitsqls.append("/*======================================== 0.清空数据========================================*/").append("\n");
-		virtualmenuInitsqls.append("delete from wb_app_menu where is_virtual_node = 'Y' and func_id = '" + serverName + "' or parent_id in (select id from wb_app_menu where is_virtual_node = 'Y' and func_id = '" + serverName + "' );");
+		virtualmenuInitsqls.append("delete from wb_app_menu where is_virtual_node = 'Y' and func_id = '" + serverName
+				+ "' or parent_id in (select id from wb_app_menu where is_virtual_node = 'Y' and func_id = '" + serverName + "' );");
 		virtualmenuInitsqls.append("\n");
 		virtualmenuInitsqls.append("commit;");
 		virtualmenuInitsqls.append("\n");
@@ -161,7 +162,8 @@ public class IUapScriptHelper {
 		IUapDataSourceInfo info = xmlCtrl.getDefPropInfo(null);
 		IUapDao dao = new IUapDao(info);
 		IUapVOTools voTools = new IUapVOTools();
-		ResultSet rs = dao.queryBySql(new WbAppMenu().getQrySqlByCondition(" is_virtual_node = 'Y'and func_id = '" + serverName + "' or parent_id in (select id from wb_app_menu where is_virtual_node = 'Y' and func_id = '" + serverName + "' )"));
+		ResultSet rs = dao.queryBySql(new WbAppMenu().getQrySqlByCondition(" is_virtual_node = 'Y'and func_id = '" + serverName
+				+ "' or parent_id in (select id from wb_app_menu where is_virtual_node = 'Y' and func_id = '" + serverName + "' )"));
 		List<WbAppMenu> wbAppMenulist = voTools.setInfo2Vos(WbAppMenu.class, rs);
 		if (wbAppMenulist != null && wbAppMenulist.size() > 0) {
 			for (WbAppMenu wbappmenu : wbAppMenulist) {
@@ -216,7 +218,7 @@ public class IUapScriptHelper {
 						+ mdmcode + "')));").append("\n");
 		deleteupmdmdatasqls.append("commit;").append("\n");
 		deleteupmdmdatasqls
-				.append("delete from pap_bcr_elem pk_billcodebase in(select pk_billcodebase from pap_bcr_rulebase where pkbillobj in (select id from biz_object where code in (select code from uapmdm_designinfo where pk_category in (select pk_category from uapmdm_category where code = '"
+				.append("delete from pap_bcr_elem where pk_billcodebase in(select pk_billcodebase from pap_bcr_rulebase where pkbillobj in (select id from biz_object where code in (select code from uapmdm_designinfo where pk_category in (select pk_category from uapmdm_category where code = '"
 						+ mdmcode + "'))));").append("\n");
 		deleteupmdmdatasqls.append("commit;").append("\n");
 		deleteupmdmdatasqls
@@ -327,11 +329,12 @@ public class IUapScriptHelper {
 		IUapXmlCtrl xmlCtrl = new IUapXmlCtrl();
 		IUapDataSourceInfo info = xmlCtrl.getDefPropInfo(null);
 		IUapDao dao = new IUapDao(info);
-		List<String[]> mdmdesignlist = (List<String[]>) dao.queryBySql("select code from uapmdm_designinfo where pk_category in (select pk_category from uapmdm_category where code = '" + mdmcode + "')", new ArrayListProcessor());
-		if(mdmdesignlist !=  null && mdmdesignlist.size() > 0) {
+		List<String[]> mdmdesignlist = (List<String[]>) dao.queryBySql(
+				"select code from uapmdm_designinfo where pk_category in (select pk_category from uapmdm_category where code = '" + mdmcode + "')", new ArrayListProcessor());
+		if (mdmdesignlist != null && mdmdesignlist.size() > 0) {
 			StringBuffer sqllike = new StringBuffer();
 			sqllike.append(" (1 = 2 ");
-			for(Object[] mdmdesigns : mdmdesignlist) {
+			for (Object[] mdmdesigns : mdmdesignlist) {
 				sqllike.append(" or (table_name like upper('%").append(mdmdesigns[0]).append("%')) ");
 			}
 			sqllike.append(")");
@@ -384,39 +387,39 @@ public class IUapScriptHelper {
 		StringBuffer wbareasSqls = new StringBuffer();
 		// wbareasSqls.append("/*======================================== 0.清空数据========================================*/").append("\n");
 		wbareasSqls.append(deleteDataSqls(serverName, bcheckMenu)).append("\n");
-		if(!bcheckMenu) {
-	
+		if (!bcheckMenu) {
+
 			// wbareasSqls.append("/*======================================== 1.微服务注册的脚本 ========================================*/").append("\n");
 			wbareasSqls.append(serverScriptVo.getWbAreas().createSqlByVO()).append("\n");
-	
+
 			// wbareasSqls.append("/*======================================== 2.微服务应用的脚本 ========================================*/").append("\n");
 			if (serverScriptVo.getWbAppAppslist() != null && serverScriptVo.getWbAppAppslist().size() > 0) {
 				for (WbAppApps wbappapps : serverScriptVo.getWbAppAppslist()) {
 					wbareasSqls.append(wbappapps.createSqlByVO()).append("\n");
 				}
 			}
-	
+
 			// wbareasSqls.append("/*======================================= 3.微服务因应用分组的脚本 =======================================*/").append("\n");
 			if (serverScriptVo.getWbAppGroupslist() != null && serverScriptVo.getWbAppGroupslist().size() > 0) {
 				for (WbAppGroups wbappgroups : serverScriptVo.getWbAppGroupslist()) {
 					wbareasSqls.append(wbappgroups.createSqlByVO()).append("\n");
 				}
 			}
-	
+
 			// wbareasSqls.append("/*======================================= 4.微服务标签关联的脚本 =======================================*/").append("\n");
 			if (serverScriptVo.getWbLabelRelationlist() != null && serverScriptVo.getWbLabelRelationlist().size() > 0) {
 				for (WbLabelRelation wblabelrelation : serverScriptVo.getWbLabelRelationlist()) {
 					wbareasSqls.append(wblabelrelation.createSqlByVO()).append("\n");
 				}
 			}
-	
+
 			// wbareasSqls.append("/*======================================= 5.微服务功能注册的脚本 =======================================*/").append("\n");
 			if (serverScriptVo.getIeopFunctionlist() != null && serverScriptVo.getIeopFunctionlist().size() > 0) {
 				for (IeopFunction ieopfunction : serverScriptVo.getIeopFunctionlist()) {
 					wbareasSqls.append(ieopfunction.createSqlByVO()).append("\n");
 				}
 			}
-	
+
 			// wbareasSqls.append("/*======================================= 6.微服务功能按钮的脚本 =======================================*/").append("\n");
 			if (serverScriptVo.getIeopFunctionActivitylist() != null && serverScriptVo.getIeopFunctionActivitylist().size() > 0) {
 				for (IeopFunctionActivity ieopfunctionactivity : serverScriptVo.getIeopFunctionActivitylist()) {
@@ -437,7 +440,7 @@ public class IUapScriptHelper {
 					wbareasSqls.append(wbappmenugroup.createSqlByVO()).append("\n");
 				}
 			}
-	
+
 			// wbareasSqls.append("/*======================================= 9.微服务菜单集合的脚本 =======================================*/").append("\n");
 			if (serverScriptVo.getWbMenuCollectionlist() != null && serverScriptVo.getWbMenuCollectionlist().size() > 0) {
 				for (WbMenuCollection wbmenucollection : serverScriptVo.getWbMenuCollectionlist()) {
@@ -446,6 +449,40 @@ public class IUapScriptHelper {
 			}
 
 		}
+		
+		// ======================================== 编码规则定义的脚本 ========================================
+		if(serverScriptVo.getBizObjectlist() != null && serverScriptVo.getBizObjectlist().size() > 0) {
+			for (BizObject bizObject : serverScriptVo.getBizObjectlist()) {
+				wbareasSqls.append(bizObject.createSqlByVO()).append("\n");
+			}
+		}
+		
+		if(serverScriptVo.getPapBcrRulebaselist() != null && serverScriptVo.getPapBcrRulebaselist().size() > 0) {
+			for (PapBcrRulebase papBcrRulebase : serverScriptVo.getPapBcrRulebaselist()) {
+				wbareasSqls.append(papBcrRulebase.createSqlByVO()).append("\n");
+			}
+		}
+		
+		if (serverScriptVo.getPapBcrElemlist() != null && serverScriptVo.getPapBcrElemlist().size() > 0) {
+			for (PapBcrElem papBcrElem : serverScriptVo.getPapBcrElemlist()) {
+				wbareasSqls.append(papBcrElem.createSqlByVO()).append("\n");
+			}
+		}
+		
+		if (serverScriptVo.getPapBcrSnlist() != null && serverScriptVo.getPapBcrSnlist().size() > 0) {
+			for (PapBcrSn papBcrSn : serverScriptVo.getPapBcrSnlist()) {
+				wbareasSqls.append(papBcrSn.createSqlByVO()).append("\n");
+			}
+		}
+
+		if (serverScriptVo.getBizObjectFieldlist() != null && serverScriptVo.getBizObjectFieldlist().size() > 0) {
+			for (BizObjectField bizObjectField : serverScriptVo.getBizObjectFieldlist()) {
+				wbareasSqls.append(bizObjectField.createSqlByVO()).append("\n");
+			}
+		}
+		// ======================================== 编码规则定义的脚本 ========================================
+		
+		
 		// wbareasSqls.append("/*======================================= 10.提交脚本 =======================================*/").append("\n");
 		wbareasSqls.append("commit;").append("\n");
 
@@ -504,6 +541,31 @@ public class IUapScriptHelper {
 						+ serverName + "'))) "));
 		List<WbMenuCollection> wbMenuCollectionlist = voTools.setInfo2Vos(WbMenuCollection.class, rs);
 		scriptVo.setWbMenuCollectionlist(wbMenuCollectionlist);
+
+		rs = dao.queryBySql(new BizObject()
+				.getQrySqlByCondition(" code not in (select code from uapmdm_designinfo) "));
+		List<BizObject> bizObjectlist = voTools.setInfo2Vos(BizObject.class, rs);
+		scriptVo.setBizObjectlist(bizObjectlist);
+
+		rs = dao.queryBySql(new PapBcrRulebase()
+				.getQrySqlByCondition(" pkbillobj in (select id from biz_object where code not in (select code from uapmdm_designinfo)) "));
+		List<PapBcrRulebase> papBcrRulebaselist = voTools.setInfo2Vos(PapBcrRulebase.class, rs);
+		scriptVo.setPapBcrRulebaselist(papBcrRulebaselist);
+
+		rs = dao.queryBySql(new PapBcrElem()
+				.getQrySqlByCondition(" pk_billcodebase in (select pk_billcodebase from pap_bcr_rulebase where pkbillobj in (select id from biz_object where code not in (select code from uapmdm_designinfo))) "));
+		List<PapBcrElem> papBcrElemlist = voTools.setInfo2Vos(PapBcrElem.class, rs);
+		scriptVo.setPapBcrElemlist(papBcrElemlist);
+
+		rs = dao.queryBySql(new PapBcrSn()
+				.getQrySqlByCondition(" pk_billcodebase in(select pk_billcodebase from pap_bcr_rulebase where pkbillobj in (select id from biz_object where code not in (select code from uapmdm_designinfo))) "));
+		List<PapBcrSn> papBcrSnlist = voTools.setInfo2Vos(PapBcrSn.class, rs);
+		scriptVo.setPapBcrSnlist(papBcrSnlist);
+
+		rs = dao.queryBySql(new BizObjectField()
+				.getQrySqlByCondition(" pk_biz_obj in (select id from biz_object where code not in (select code from uapmdm_designinfo)) "));
+		List<BizObjectField> bizObjectFieldlist = voTools.setInfo2Vos(BizObjectField.class, rs);
+		scriptVo.setBizObjectFieldlist(bizObjectFieldlist);
 
 		return scriptVo;
 	}
@@ -591,7 +653,7 @@ public class IUapScriptHelper {
 
 	private String deleteDataSqls(String serverName, boolean bcheckMenu) {
 		StringBuffer deleteDatasqls = new StringBuffer();
-		if(bcheckMenu) {
+		if (bcheckMenu) {
 			deleteDatasqls
 					.append("delete from wb_menu_collection where menu_id in(select id from wb_app_menu where layout_id in (select app_code from wb_app_apps where domain_id in (select id from wb_areas where area_code in ('"
 							+ serverName + "'))));");
@@ -616,8 +678,9 @@ public class IUapScriptHelper {
 			deleteDatasqls.append("\n");
 			deleteDatasqls.append("commit;");
 			deleteDatasqls.append("\n");
-			deleteDatasqls.append("delete from ieop_function where func_code in (select app_code from wb_app_apps where domain_id in (select id from wb_areas where area_code in ('"
-					+ serverName + "')));");
+			deleteDatasqls
+					.append("delete from ieop_function where func_code in (select app_code from wb_app_apps where domain_id in (select id from wb_areas where area_code in ('"
+							+ serverName + "')));");
 			deleteDatasqls.append("\n");
 			deleteDatasqls.append("commit;");
 			deleteDatasqls.append("\n");
@@ -638,6 +701,23 @@ public class IUapScriptHelper {
 			deleteDatasqls.append("\n");
 			deleteDatasqls.append("commit;");
 			deleteDatasqls.append("\n");
+			deleteDatasqls.append("delete from biz_object where code not in (select code from uapmdm_designinfo);").append("\n");
+			deleteDatasqls.append("commit;").append("\n");
+			deleteDatasqls.append("delete from pap_bcr_rulebase where pkbillobj in (select id from biz_object where code not in (select code from uapmdm_designinfo));").append(
+					"\n");
+			deleteDatasqls.append("commit;").append("\n");
+			deleteDatasqls.append(
+					"delete from pap_bcr_elem where pk_billcodebase in (select pk_billcodebase from pap_bcr_rulebase where pkbillobj not in (select id from biz_object));").append(
+					"\n");
+			deleteDatasqls.append("commit;").append("\n");
+			deleteDatasqls
+					.append("delete from pap_bcr_sn where pk_billcodebase in (select pk_billcodebase from pap_bcr_rulebase where pkbillobj in (select id from biz_object where code not in (select code from uapmdm_designinfo)));")
+					.append("\n");
+			deleteDatasqls.append("commit;").append("\n");
+			deleteDatasqls
+					.append("delete from biz_object_field where pk_biz_obj in (select id from biz_object where code in (select code from uapmdm_designinfo where pk_category not in (select pk_category from uapmdm_category)));")
+					.append("\n");
+			deleteDatasqls.append("commit;").append("\n");
 		}
 		return deleteDatasqls.toString();
 	}
